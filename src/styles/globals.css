@@ -100,6 +100,39 @@ a {
   text-decoration: none;
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+}
+
+.main h1 {
+  text-align: center;
+  color: red;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+}
+
+.logo {
+  width: 50%;
+}
+
+.navbar ul {
+  width: 30%;
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+  items-align: center;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
