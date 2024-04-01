@@ -1,10 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
+import style from "./Navbar.module.css"
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <Link href="/" className="logo">
+    <nav className={`${style.navbar} bg-gray-800 text-white`}>
+      <Link href="/" className={style.logo}>
         <h1>Araya Musawwah</h1>
       </Link>
       <ul>

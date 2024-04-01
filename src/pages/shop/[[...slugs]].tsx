@@ -1,5 +1,4 @@
 import { useRouter } from "next/router"
-
 const Slugs = () => {
   const { query } = useRouter()
   return (
