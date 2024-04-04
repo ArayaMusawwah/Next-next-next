@@ -7,6 +7,7 @@ import Spinner from "@/components/loaders/SquareLoader"
 
 import { Product } from "@/types/Product"
 import ProductCard from "@/components/products/ProductCard"
+import CardLoader from "@/components/loaders/CardLoader"
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -30,10 +31,16 @@ const Products = () => {
         <title>Products</title>
       </Head>
       <h1>Ini nanti bakalan ada banyak products</h1>
-      {isLoading && <Spinner />}
-      <div className="grid grid-cols-2 gap-5">
-        <ProductCard products={products} />
-      </div>
+      {isLoading ? (
+        <CardLoader />
+      ) : (
+        <div className="grid grid-cols-2 gap-5">
+          <ProductCard
+            products={isLoading ? [] : products}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
     </>
   )
 }

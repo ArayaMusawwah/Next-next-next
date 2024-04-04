@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton"
 
-function SkeletonCard() {
+function CardLoader() {
   return (
     <div className="flex flex-col space-y-3">
       <Skeleton className="h-[125px] w-[250px] rounded-xl" />
@@ -12,4 +12,4 @@ function SkeletonCard() {
   )
 }
 
-export default SkeletonCard
+export default CardLoader

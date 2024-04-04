@@ -2,7 +2,13 @@ import { Product } from "@/types/Product"
 import Image from "next/image"
 import Link from "next/link"
 
-const ProductCard = ({ products }: { products: Product[] }) => {
+const ProductCard = ({
+  products,
+  isLoading
+}: {
+  products: Product[]
+  isLoading: boolean
+}) => {
   return (
     products &&
     products.map((product) => (
