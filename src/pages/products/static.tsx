@@ -1,7 +1,7 @@
 import ProductCard from "@/components/products/ProductCard"
-import { Product } from "@/types/Product"
+import { ProductType } from "@/types/Product"
 
-const Static = ({ products }: { products: Product[] }) => {
+const Static = ({ products }: { products: ProductType[] }) => {
   return (
     <>
       <h1>Static Site Rendering</h1>

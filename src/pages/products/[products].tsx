@@ -1,11 +1,11 @@
 import ProductPage from "@/components/products/ProductPage"
 import { fetcher } from "@/lib/fetch"
-import { Product } from "@/types/Product"
+import { ProductType } from "@/types/Product"
 import { useRouter } from "next/router"
 import { Suspense } from "react"
 import useSWR from "swr"
 
-const Product = ({ product }: { product: Product }) => {
+const Product = ({ product }: { product: ProductType }) => {
   const { query } = useRouter()
 
   // ClientSide
@@ -53,7 +53,7 @@ export const getStaticPaths = async (): Promise<any> => {
   const getData = await fetch("http://localhost:3000/api/products")
   const res = await getData.json()
 
-  const paths = res.data.map((product: Product) => ({
+  const paths = res.data.map((product: ProductType) => ({
     params: { products: product.id }
   }))
 
@@ -75,5 +75,4 @@ export const getStaticProps = async ({
     }
   }
 }
-
 export default Product

@@ -1,7 +1,7 @@
 import ProductCard from "@/components/products/ProductCard"
-import { Product } from "@/types/Product"
+import { ProductType } from "@/types/Product"
 
-const ServerSideProduct = ({ products }: { products: Product[] }) => {
+const ServerSideProduct = ({ products }: { products: ProductType[] }) => {
   return (
     <>
       <h1>Server Side Product</h1>

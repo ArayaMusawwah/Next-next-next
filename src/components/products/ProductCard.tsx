@@ -1,4 +1,4 @@
-import { Product } from "@/types/Product"
+import { ProductType } from "@/types/Product"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -6,7 +6,7 @@ const ProductCard = ({
   products,
   isLoading
 }: {
-  products: Product[]
+  products: ProductType[]
   isLoading: boolean
 }) => {
   return (

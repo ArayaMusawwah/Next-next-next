@@ -5,12 +5,12 @@ import useSWR from "swr"
 import { fetcher } from "@/lib/fetch"
 import Spinner from "@/components/loaders/SquareLoader"
 
-import { Product } from "@/types/Product"
+import { ProductType } from "@/types/Product"
 import ProductCard from "@/components/products/ProductCard"
 import CardLoader from "@/components/loaders/CardLoader"
 
 const Products = () => {
-  const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<ProductType[]>([])
   const { data, error, isLoading } = useSWR("/api/products", fetcher)
 
   useEffect(() => {

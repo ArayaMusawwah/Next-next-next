@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { Product } from "@/types/Product"
 import CardLoader from "@/components/loaders/CardLoader"
 
 const ProductPage = ({
