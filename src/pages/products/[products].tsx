@@ -73,6 +73,7 @@ export const getStaticProps = async ({
     props: {
       product: res.data
     }
+    // revalidate: 10 //ini klo otomatis (10detik)
   }
 }
 export default Product
