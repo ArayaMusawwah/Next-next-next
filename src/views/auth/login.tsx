@@ -1,9 +1,38 @@
-import { Form } from "@/components/ui/form"
+import { signIn } from "next-auth/react"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useState } from "react"
 
 const LoginPage = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const { push, query } = useRouter()
+
+  const callbackUrl: any = query.callbackUrl || "/"
+
+  const handleLogin = async (e: any) => {
+    e.preventDefault()
+    setIsLoading(true)
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: e.target.email.value,
+        password: e.target.password.value,
+        callbackUrl
+      })
+
+      !res?.error ? push(callbackUrl) : setError(res?.error)
+    } catch (err: any) {
+      setError("Incorrect Username / password")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
-    <div className="flex h-screen items-center justify-center bg-slate-300">
-      <form className="space-y-6" onSubmit={() => console.log("submitted")}>
+    <div className="flex min-h-full w-full items-center justify-center bg-zinc-300 px-4 py-12 sm:px-6 lg:px-8">
+      <form onSubmit={handleLogin} className="space-y-6">
+        {error && <p className="text-red-500">{error}</p>}
         <div>
           <label
             htmlFor="email"
@@ -15,8 +44,7 @@ const LoginPage = () => {
             type="email"
             name="email"
             id="email"
-            autoComplete="email"
-            className="focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none sm:text-sm"
+            className="focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
           />
         </div>
         <div>
@@ -30,16 +58,21 @@ const LoginPage = () => {
             type="password"
             name="password"
             id="password"
-            autoComplete="current-password"
-            className="focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none sm:text-sm"
+            className="focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
           />
         </div>
         <button
+          className="w-full rounded-md bg-slate-700 px-5 py-2 text-white"
           type="submit"
-          className="hover:bg-primary-dark focus:ring-primary-500 flex w-full items-center justify-center gap-2 rounded-md border border-transparent bg-primary px-6 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm"
         >
-          Log in
+          {isLoading ? "Loading..." : "Login"}
         </button>
+        <Link
+          href={"/auth/register"}
+          className="mt-10 block text-center text-sm text-gray-500"
+        >
+          Dont have an account?
+        </Link>
       </form>
     </div>
   )

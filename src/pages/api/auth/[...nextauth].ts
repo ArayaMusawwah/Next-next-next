@@ -1,7 +1,10 @@
+import { signIn } from "@/lib/firebase/service"
 import { NextAuthOptions } from "next-auth"
 import NextAuth from "next-auth/next"
 import CredentialsProvider from "next-auth/providers/credentials"
+import { compare } from "bcrypt"
 // import { UserType } from "@/types/Types"
+
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt"
@@ -12,11 +15,6 @@ const authOptions: NextAuthOptions = {
       type: "credentials",
       name: "Credentials",
       credentials: {
-        username: {
-          label: "Username",
-          type: "text",
-          placeholder: "John"
-        },
         email: {
           label: "Email",
           type: "email",
@@ -25,30 +23,40 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password", placeholder: "******" }
       },
       authorize: async (credentials) => {
-        const { username, password, email } = credentials as {
-          username: string
+        const { password, email } = credentials as {
           email: string
           password: string
         }
-        const user: any = { id: 1, username, password, email }
+        const user: any = await signIn({ email })
 
-        return user ? user : null
+        if (user) {
+          const confirmPassword = await compare(password, user.password)
+          if (confirmPassword) return user
+          return null
+        } else {
+          return null
+        }
       }
     })
   ],
   callbacks: {
-    jwt({ token, account, profile, user }) {
+    jwt({ token, account, profile, user }: any) {
       if (account?.provider === "credentials") {
         token.email = user.email
+        token.username = user.username
+        token.role = user.role
       }
       return token
     },
     session({ session, token }: any) {
-      if ("email" in token) {
-        session.user.email = token.email
-      }
+      if ("email" in token) session.user.email = token.email
+      if ("username" in token) session.user.username = token.username
+      if ("role" in token) session.user.role = token.role
       return session
     }
+  },
+  pages: {
+    signIn: "/auth/login"
   }
 }
 
