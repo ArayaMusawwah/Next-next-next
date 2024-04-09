@@ -7,6 +7,8 @@ import {
 } from "next/server"
 
 const withAuth = (middleware: NextMiddleware, requireAuth: string[] = []) => {
+  const onlyAdmin = ["/admin"]
+
   return async (req: NextRequest, next: NextFetchEvent) => {
     const { pathname } = req.nextUrl
     if (requireAuth.includes(pathname)) {
@@ -18,6 +20,9 @@ const withAuth = (middleware: NextMiddleware, requireAuth: string[] = []) => {
         const url = new URL("/auth/login", req.url)
         url.searchParams.set("callbackUrl", encodeURI(req.url))
         return NextResponse.redirect(url)
+      }
+      if (token.role !== "admin" && onlyAdmin.includes(pathname)) {
+        return NextResponse.redirect(new URL("/", req.url))
       }
     }
     return middleware(req, next)

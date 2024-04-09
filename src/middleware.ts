@@ -15,4 +15,4 @@ export const config = {
 
 export const mainMiddleware = (req: NextRequest) => NextResponse.next()
 
-export default withAuth(mainMiddleware, ["/profile", "/products"])
+export default withAuth(mainMiddleware, ["/profile", "/products", "/admin"])
