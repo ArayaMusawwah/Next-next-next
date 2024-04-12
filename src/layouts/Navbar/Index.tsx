@@ -8,11 +8,22 @@ const Navbar = () => {
   const { data } = useSession()
 
   return (
-    <nav className={`${style.navbar} bg-gray-800 text-white`}>
-      <Link href="/" className={style.logo}>
-        <h1>Araya Musawwah</h1>
-      </Link>
-      <ul className="*:flex *:items-center">
+    <nav className={`${style.navbar} w-full bg-gray-800 text-white`}>
+      <div className="flex w-1/3 items-center space-x-4">
+        {data?.user?.image && (
+          <Image
+            src={data.user.image}
+            alt="Profile Picture"
+            width={40}
+            height={40}
+            className="rounded-full object-cover"
+          />
+        )}
+        <Link href="/" className={style.logo}>
+          <h1>{data?.user?.name || "Wanderer"}</h1>
+        </Link>
+      </div>
+      <ul className="flex items-center space-x-4">
         <li>
           <Link href="/">Home</Link>
         </li>

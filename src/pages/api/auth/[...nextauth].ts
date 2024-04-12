@@ -1,15 +1,18 @@
-import { signIn } from "@/lib/firebase/service"
+import { signIn, signInWithGoogle } from "@/lib/firebase/service"
 import { NextAuthOptions } from "next-auth"
 import NextAuth from "next-auth/next"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { compare } from "bcrypt"
+import GoogleProvider from "next-auth/providers/google"
 // import { UserType } from "@/types/Types"
 
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt"
   },
+
   secret: process.env.NEXTAUTH_SECRET,
+
   providers: [
     CredentialsProvider({
       type: "credentials",
@@ -37,14 +40,41 @@ const authOptions: NextAuthOptions = {
           return null
         }
       }
+    }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_OAUTH_CLIENTID!,
+      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!
     })
   ],
+
   callbacks: {
-    jwt({ token, account, profile, user }: any) {
+    async jwt({ token, account, _, user }: any) {
       if (account?.provider === "credentials") {
         token.email = user.email
-        token.username = user.username
+        token.username = user.username || user.name
         token.role = user.role
+      }
+
+      if (account?.provider === "google") {
+        const data = {
+          fullname: user.name,
+          email: user.email,
+          image: user.image,
+          type: "google"
+        }
+        await signInWithGoogle(
+          data,
+          (result: { status: boolean; message: string; data: any }) => {
+            if (result.status) {
+              token.email = result.data.email
+              token.fullname = result.data.fullname
+              token.image = result.data.image
+              token.type = result.data.type
+              token.role = result.data.role
+            }
+          }
+        )
       }
       return token
     },

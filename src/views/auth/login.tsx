@@ -2,6 +2,7 @@ import { signIn } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { FaGithub, FaGoogle, FaLinkedinIn, FaTwitter } from "react-icons/fa"
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -60,6 +61,38 @@ const LoginPage = () => {
             id="password"
             className="focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
           />
+        </div>
+        <div className="flex space-x-2">
+          <button
+            type="button"
+            onClick={() =>
+              signIn("google", {
+                callbackUrl,
+                redirect: false
+              })
+            }
+            className="rounded-full bg-blue-500 p-2 text-white transition duration-300 hover:bg-blue-600"
+          >
+            <FaGoogle />
+          </button>
+          <button
+            type="button"
+            className="rounded-full bg-gray-700 p-2 text-white transition duration-300 hover:bg-gray-800"
+          >
+            <FaGithub />
+          </button>
+          <button
+            type="button"
+            className="rounded-full bg-blue-700 p-2 text-white transition duration-300 hover:bg-blue-800"
+          >
+            <FaLinkedinIn />
+          </button>
+          <button
+            type="button"
+            className="rounded-full bg-blue-400 p-2 text-white transition duration-300 hover:bg-blue-500"
+          >
+            <FaTwitter />
+          </button>
         </div>
         <button
           className="w-full rounded-md bg-slate-700 px-5 py-2 text-white"

@@ -6,6 +6,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where
 } from "firebase/firestore"
 import app from "./init"
@@ -69,5 +70,53 @@ export const signUp = async (
     await addDoc(collection(firestore, "users"), userData)
       .then(() => callback({ status: true, message: "success" }))
       .catch((err) => callback({ status: false, message: err }))
+  }
+}
+
+export const signInWithGoogle = async (userData: any, callback: any) => {
+  const q = query(
+    collection(firestore, "users"),
+    where("email", "==", userData.email)
+  )
+  const snapshot = await getDocs(q)
+  const data: any = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data()
+  }))
+
+  if (data.length) {
+    /* diambil dari database */
+    userData.role = data[0].role
+    await updateDoc(doc(firestore, "users", data[0].id), userData)
+      .then(() =>
+        callback({
+          status: true,
+          message: "Success login with your Google Account",
+          data: userData
+        })
+      )
+      .catch(() =>
+        callback({
+          status: false,
+          message: "Failed to login with your Google Account",
+          data: userData
+        })
+      )
+  } else {
+    /* Default */
+    userData.role = "member"
+    await addDoc(collection(firestore, "users"), userData)
+      .then(() =>
+        callback({
+          status: true,
+          message: "Success login with your Google Account"
+        })
+      )
+      .catch(() =>
+        callback({
+          status: false,
+          message: "Failed to login with your Google Account"
+        })
+      )
   }
 }
