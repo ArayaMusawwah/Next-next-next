@@ -14,7 +14,7 @@ const ServerSideProduct = ({ products }: { products: ProductType[] }) => {
 export default ServerSideProduct
 
 export const getServerSideProps = async () => {
-  const getData = await fetch("http://localhost:3000/api/products")
+  const getData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`)
   const res = await getData.json()
 
   return {

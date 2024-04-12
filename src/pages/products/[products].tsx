@@ -50,7 +50,7 @@ const Product = ({ product }: { product: ProductType }) => {
 
 //Static
 export const getStaticPaths = async (): Promise<any> => {
-  const getData = await fetch("http://localhost:3000/api/products")
+  const getData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`)
   const res = await getData.json()
 
   const paths = res.data.map((product: ProductType) => ({
@@ -65,7 +65,7 @@ export const getStaticProps = async ({
   params: { products: string }
 }) => {
   const getData = await fetch(
-    `http://localhost:3000/api/products/${params.products}`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products/${params.products}`
   )
   const res = await getData.json()
 
