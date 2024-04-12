@@ -1,5 +1,7 @@
 import { Html, Head, Main, NextScript } from "next/document"
 
+import { Poppins, Roboto } from "next/font/google"
+
 export default function Document() {
   return (
     <Html lang="en">
