@@ -35,10 +35,7 @@ const Products = () => {
         <CardLoader />
       ) : (
         <div className="grid grid-cols-2 gap-5">
-          <ProductCard
-            products={isLoading ? [] : products}
-            isLoading={isLoading}
-          />
+          <ProductCard products={isLoading ? [] : products} />
         </div>
       )}
     </>
