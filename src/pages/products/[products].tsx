@@ -31,13 +31,13 @@ const Product = ({ product }: { product: ProductType }) => {
 }
 
 // ServerSide
-/* export const getServerSideProps = async ({
+export const getServerSideProps = async ({
   params
 }: {
   params: { products: string }
 }) => {
   const getData = await fetch(
-    `http://localhost:3000/api/products/${params.products}`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products/${params.products}`
   )
   const res = await getData.json()
 
@@ -46,10 +46,10 @@ const Product = ({ product }: { product: ProductType }) => {
       product: res.data
     }
   }
-} */
+}
 
 //Static
-export const getStaticPaths = async (): Promise<any> => {
+/* export const getStaticPaths = async (): Promise<any> => {
   const getData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`)
   const res = await getData.json()
 
@@ -74,6 +74,6 @@ export const getStaticProps = async ({
       product: res.data
     }
     // revalidate: 10 //ini klo otomatis (10detik)
-  }
-}
+  } 
+} */
 export default Product
