@@ -5,7 +5,7 @@ const About = () => {
   const { push } = useRouter()
   useEffect(() => {
     push("/")
-  })
+  }, [push])
 
   return <h1>About page</h1>
 }
